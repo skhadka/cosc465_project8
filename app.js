@@ -7,7 +7,11 @@ if (process.env.BASE_URL) {            // if env var is set, use it
 }
 var url = require('url');
 var port = url.parse(baseurl).port;    // parse out the port number
+if (process.env.PORT) {
+    port = process.env.PORT;
+}
 console.log("Using baseurl: " + baseurl);
+console.log("Port: " + port);
 
 app.configure(function() {
   app.set('view engine', 'jade');
