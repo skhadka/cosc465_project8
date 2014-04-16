@@ -28,7 +28,7 @@ app.configure(function() {
 
 // set up socket.io routes
 var perftests = require('./perftests.js');
-app.io.route('latencytest', perftests.latencytest);
+app.io.route('ping', perftests.ping);
 
 // set up "normal" http routes
 var views = require('./views.js');
