@@ -15,4 +15,7 @@ exports.upload = function(req, res){
 
 };
 
-
+exports.download = function(req, res){
+    var username = userdb.get_user_name(req.session.id);
+    res.render('download', {title:"Download tests", message: "Testing?", user: username});
+};

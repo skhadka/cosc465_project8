@@ -39,6 +39,7 @@ var views = require('./views.js');
 app.get('/', views.index);
 app.get('/tests', views.tests);
 app.get('/upload', views.upload);
+app.get('/download', views.download);
 
 app.listen(port);
 console.log("App started on port " + port);

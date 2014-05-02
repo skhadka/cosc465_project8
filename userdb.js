@@ -11,7 +11,8 @@ var add_user = function(id, user) {
             'id': id,
             'user': user,
             'latency_results': [],
-            'upload_results': []	
+            'upload_results': [],
+            'download_results': []	
         };
     }
     return userhash[id];
@@ -50,5 +51,15 @@ exports.add_upload_result = function(id, result) {
     console.log("UPLOAD");
     console.log(result);
     userhash[id].upload_results[userhash[id].upload_results.length] = result;
+};
+
+
+exports.add_download_result = function(id, result) {
+    if (userhash[id] === undefined) {
+        add_user(id, undefined);
+    }
+    console.log("DOWNLOAD");
+    console.log(result);
+    userhash[id].download_results[userhash[id].download_results.length] = result;
 };
 

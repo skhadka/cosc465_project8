@@ -28,11 +28,28 @@ var myapp = (function(){
         }
     });
     
+    socket.on('download_pong', function(data) {
+        var rtt = Date.now() - data.timestamp;
+        console.log("Download RTT (milliseconds): " + rtt);
+        var total_rtt = data.total_rtt + rtt;
+        if(data.seq_num==4) {
+            socket.emit('download_test', {download_avg: total_rtt/5});
+            jQuery("#downloadstatus").text("Avg download RTT: " + (total_rtt/5) + " milliseconds.");
+            console.log("\n");
+        } else {
+            socket.emit('upload_ping', {downloadtest: data.downloadtest, timestamp: Date.now(), seq_num: data.seq_num + 1, total_rtt: total_rtt});
+        }
+    });    
+    
     var start_upload = function() {
         var arr = new Float64Array(1000); //1M slow! stick with 1K
         socket.emit('upload_ping', {uploadtest: arr, timestamp: Date.now(), seq_num: 0, total_rtt: 0});
     };
     
+    var start_download = function() {
+        var arr = new Float64Array(1000); //1M slow! stick with 1K
+        socket.recv('upload_ping', {downloadtest: arr, timestamp: Date.now(), seq_num: 0, total_rtt: 0});
+    };
     
     var start_ping = function() {
         socket.emit('ping', {timestamp: Date.now(), seq_num: 0, total_rtt: 0});

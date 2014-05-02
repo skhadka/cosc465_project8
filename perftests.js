@@ -22,3 +22,14 @@ exports.upload_ping = function(req){
 exports.upload_test = function(req) {
     userdb.add_upload_result(req.session.id, req.data.upload_avg);
 };
+
+
+
+exports.download_ping = function(req){
+    console.log("got download_test socket.io callback");
+    req.io.emit('download_pong', req.data);
+};
+
+exports.upload_test = function(req) {
+    userdb.add_download_result(req.session.id, req.data.download_avg);
+};
