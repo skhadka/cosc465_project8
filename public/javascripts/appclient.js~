@@ -6,36 +6,39 @@ var myapp = (function(){
         console.log("Ping RTT (milliseconds): " + rtt);
         var total_rtt = data.total_rtt+rtt;
         
-        if(data.seq_num==9){
-            socket.emit('latency_test', {avgrtt: total_rtt/10});
-            jQuery("#status").text("Avg RTT: " + (total_rtt/10) + " milliseconds.");
+        if(data.seq_num==4){
+            socket.emit('latency_test', {avgrtt: total_rtt/5});
+            jQuery("#status").text("Avg RTT: " + (total_rtt/5) + " milliseconds.");
+            //jQuery("#status").css({color: 'blue'});
+            //jQuery("#results").css("display","block");
             console.log("\n");
         }else{
             socket.emit('ping', {timestamp: Date.now(), seq_num: data.seq_num+1, total_rtt: total_rtt});
         }
     });
-    
     socket.on('upload_pong', function(data) {
         var rtt = Date.now() - data.timestamp;
         console.log("Upload RTT (milliseconds): " + rtt);
         var total_rtt = data.total_rtt + rtt;
-        if(data.seq_num==9) {
-            socket.emit('upload_test', {upload_avg: total_rtt/10});
-            jQuery("#uploadstatus").text("Avg upload RTT: " + (total_rtt/10) + " milliseconds.");
+        if(data.seq_num==4) {
+            socket.emit('upload_test', {upload_avg: total_rtt/5});
+            jQuery("#uploadstatus").text("Avg upload RTT: " + (total_rtt/5) + " milliseconds.");
+            //jQuery("#uploadstatus").css({color: 'green'});
+            //jQuery("#uploadstatus").css("display", "block");
             console.log("\n");
         } else {
-            socket.emit('upload_ping', {uploadtest: data.uploadtest, timestamp: Date.now(), seq_num: data.seq_num + 1, total_rtt: total_rtt});
+            socket.emit('upload_ping', {uploadtest: data.uploadtest, timestamp: Date.now(), seq_num: data.seq_num + 1, total_rtt: total_trtt});
         }
     });
     
     var start_upload = function() {
-        var arr = new Float64Array(1000); //1M slow! stick with 1K
+        var arr = new Float64Array(1500);
         socket.emit('upload_ping', {uploadtest: arr, timestamp: Date.now(), seq_num: 0, total_rtt: 0});
     };
     
     
     var start_ping = function() {
-        socket.emit('ping', {timestamp: Date.now(), seq_num: 0, total_rtt: 0});
+        socket.emit('ping', {timestamp: Date.now(), seq_num: 0, totrtt: 0});
     };
     
     
@@ -45,6 +48,8 @@ var myapp = (function(){
             console.log("Client-side app starting up");
             jQuery("#startping").click(start_ping);
             jQuery("#uploadinfo").click(start_upload);
+            
+
         }
     }
 })();
