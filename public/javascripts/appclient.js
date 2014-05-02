@@ -6,9 +6,9 @@ var myapp = (function(){
         console.log("Ping RTT (milliseconds): " + rtt);
         var total_rtt = data.total_rtt+rtt;
         
-        if(data.seq_num==9){
-            socket.emit('latency_test', {avgrtt: total_rtt/10});
-            jQuery("#status").text("Avg RTT: " + (total_rtt/10) + " milliseconds.");
+        if(data.seq_num==4){
+            socket.emit('latency_test', {avgrtt: total_rtt/5});
+            jQuery("#status").text("Avg RTT: " + (total_rtt/5) + " milliseconds.");
             console.log("\n");
         }else{
             socket.emit('ping', {timestamp: Date.now(), seq_num: data.seq_num+1, total_rtt: total_rtt});
@@ -19,9 +19,9 @@ var myapp = (function(){
         var rtt = Date.now() - data.timestamp;
         console.log("Upload RTT (milliseconds): " + rtt);
         var total_rtt = data.total_rtt + rtt;
-        if(data.seq_num==9) {
-            socket.emit('upload_test', {upload_avg: total_rtt/10});
-            jQuery("#uploadstatus").text("Avg upload RTT: " + (total_rtt/10) + " milliseconds.");
+        if(data.seq_num==4) {
+            socket.emit('upload_test', {upload_avg: total_rtt/5});
+            jQuery("#uploadstatus").text("Avg upload RTT: " + (total_rtt/5) + " milliseconds.");
             console.log("\n");
         } else {
             socket.emit('upload_ping', {uploadtest: data.uploadtest, timestamp: Date.now(), seq_num: data.seq_num + 1, total_rtt: total_rtt});
